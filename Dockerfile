@@ -6,7 +6,6 @@ RUN adduser --disabled-password --gecos '' guest
 
 
 ENV GO111MODULE=on
-ENV GIN_MODE=release
 
 COPY . /app
 
@@ -25,6 +24,7 @@ COPY --from=builder /app/RTSPtoWebRTC /RTSPtoWebRTC
 COPY --from=builder /app/web /web
 EXPOSE 8083
 
+ENV GIN_MODE=release
 USER guest
 
 # Run the executable
