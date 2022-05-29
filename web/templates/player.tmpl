@@ -8,29 +8,14 @@
 <script src="../../static/js/bootstrap.min.js"></script>
 <script src="../../static/js/adapter-latest.js"></script>
 
-<h2 align=center>
-    Play Stream {{ .suuid }}
-</h2>
-<div class="container">
-  <div class="row">
-    <div class="col-3">
-      <div class="list-group">
-  {{ range .suuidMap }}
-    <a href="{{ . }}" id="{{ . }}" name="{{ . }}" class="list-group-item list-group-item-action">{{ . }}</a>
-  {{ end }}
-</div>
-    </div>
-        <div class="col">
-            <input type="hidden" name="suuid" id="suuid" value="{{ .suuid }}">
-            <input type="hidden" name="port" id="port" value="{{ .port }}">
-            <input type="hidden" id="localSessionDescription" readonly="true">
-            <input type="hidden" id="remoteSessionDescription">
-            <div id="remoteVideos">
-                <video style="width:600px" id="videoElem" autoplay muted controls></video>
-            </div>
-            <div id="div"></div>
-        </div>
-    </div>
+<div>
+  <input type="hidden" name="suuid" id="suuid" value="{{ .suuid }}">
+  <input type="hidden" name="port" id="port" value="{{ .port }}">
+  <input type="hidden" id="localSessionDescription" readonly="true">
+  <input type="hidden" id="remoteSessionDescription">
+  <div id="remoteVideos">
+      <video  class="justify-content-center" style="height: 100%; position: absolute; margin: auto; top: 50%; left: 50%; transform: translate(-50%, -50%);" id="videoElem" autoplay muted controls></video>
+  </div>
 </div>
 <script type="text/javascript" src="../../static/js/app.js?ver={{ .version }}"></script>
 </html>

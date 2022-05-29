@@ -1,14 +1,31 @@
-FROM golang:1.18
+FROM golang:1.18 as builder
+LABEL maintainer="schizo99@gmail.com"
 
-WORKDIR /go/src/app
-COPY .  .
+# Create guestuser.
+RUN adduser --disabled-password --gecos '' guest
 
-RUN go get -d -v ./...
-RUN go install -v ./...
-
-EXPOSE 8083
 
 ENV GO111MODULE=on
 ENV GIN_MODE=release
 
-CMD go run *.go
+COPY . /app
+
+WORKDIR /app
+
+RUN go mod download
+
+# Install the package
+# RUN go install -v ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o RTSPtoWebRTC
+
+FROM alpine
+
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /app/RTSPtoWebRTC /RTSPtoWebRTC
+COPY --from=builder /app/web /web
+EXPOSE 8083
+
+USER guest
+
+# Run the executable
+CMD ["/RTSPtoWebRTC"]
